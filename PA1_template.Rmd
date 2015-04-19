@@ -3,7 +3,16 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
+    toc: true
+    toc_depth: 3
+    theme: default
 ---
+
+```{r setoptions, echo=FALSE}
+# Disable scientific notation of large numbers. 
+options("scipen"=15)
+
+```
 
 ## Loading and preprocessing the data
 ### Setup the data files
