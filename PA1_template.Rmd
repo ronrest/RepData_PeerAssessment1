@@ -46,9 +46,9 @@ df = read.csv(dataFilePath)
 ```
 
 ### Preprocess the data
-The data contains lots of missing values which would interfere and skew the data 
-later on. So all rows containing missing data are removed here at this early 
-stage. 
+The data contains lots of missing values which interfere and skew the data, 
+creating a disproportionate number of false zeroes if not removed. So all rows 
+containing missing data are removed here at this early stage. 
 ```{r}
 df = df[complete.cases(df),]
 ```
@@ -60,7 +60,6 @@ column to be date objects instead of strings.
 dateFormat = "%Y-%m-%d"
 df$date = as.Date(df$date, dateFormat)
 ```
-
 
 ## What is mean total number of steps taken per day?
 A histogram with 20 breaks reveals that this is a bimodal distribution. The data 
