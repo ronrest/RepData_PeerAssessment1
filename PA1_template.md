@@ -280,6 +280,7 @@ hist(df.unfiltered.StepsPerDay$total.steps, breaks=20, col="red",
 
 ![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
 
+ This peak skewed peak does influence the mean and median, shifting them over quite a bit towards zero. 
 
 
 ```r
@@ -301,9 +302,18 @@ unfiltered.median.dailySteps
 ```
 
 
-
-
 ## Are there differences in activity patterns between weekdays and weekends?
+Create a new factor variable in the dataset with two levels -- "weekday" and 
+"weekend" indicating whether a given date is a weekday or weekend day.
 
+
+```r
+# Create new column indicating if the column represents a weekday or weekend. 
+df.filled <- mutate(df.filled,
+       week.indicator = factor(ifelse(is.element(wday(df.filled$date, label=TRUE), 
+       c("Sat","Sun")), "weekend", "weekday"), labels=c("weekday", "weekend")))
+```
+
+Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using simulated data
 
 
