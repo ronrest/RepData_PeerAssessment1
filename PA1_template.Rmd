@@ -123,7 +123,7 @@ The average number of steps taken, averaged across all days can be plotted.
 ``` {r}
 # group by the five minute intervals, and average out the number of steps 
 # accross all days.
-group.byInterval <- group_by(df, interval)
+group.byInterval <- group_by(df[df$complete,], interval)
 df.AvgStepsByInterval <- summarise(group.byInterval, 
                                    mean.steps=mean(steps, na.rm=TRUE))
 
@@ -147,7 +147,7 @@ interval that receives the most activity.
 
 ```{r}
 maxsteps = max(df.AvgStepsByInterval$mean.steps)
-maxsteps.row = filter(df.AvgStepsByInterval, mean.steps==maxsteps)
+maxsteps.row = df.AvgStepsByInterval[df.AvgStepsByInterval$mean.steps == maxsteps, ]
 maxsteps.interval = maxsteps.row[[1,"interval"]]
 maxsteps.interval
 ```
