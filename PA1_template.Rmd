@@ -45,10 +45,17 @@ can load it into a data frame.
 df = read.csv(dataFilePath)
 ```
 
-The data contains a date field, so we need to convert the items in that column 
-to be date objects instead of strings. 
-
 ### Preprocess the data
+The data contains lots of missing values which would interfere and skew the data 
+later on. So all rows containing missing data are removed here at this early 
+stage. 
+```{r}
+df = df[complete.cases(df),]
+```
+
+The data also contains a date field, so we need to convert the items in that 
+column to be date objects instead of strings. 
+
 ```{r}
 dateFormat = "%Y-%m-%d"
 df$date = as.Date(df$date, dateFormat)
@@ -69,9 +76,6 @@ hist(df.StepsPerDay$total.steps, breaks=20, col="red",
      xlab="Total Number of Steps Per Day",
      main="Frequencies of Total Number of Steps Per Day")
 
-head(df, 20)
-df()
-df$date
 ```
 
 
