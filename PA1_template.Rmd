@@ -59,10 +59,9 @@ The data contains lots of missing values which interfere and skew the data,
 creating a disproportionate number of false zeroes if not removed. So a new 
 column is created which flags all the rows with that do not contain missing 
 values, so that all other rows can be filtered out when necessary. 
-```{r}
+```{r  message=FALSE}
 library(dplyr)
 df <- mutate(df, complete = complete.cases(df)) 
-#df = df[complete.cases(df),]
 ```
 
 The data also contains a date field, so we need to convert the items in that 
@@ -70,8 +69,6 @@ column to be date objects instead of strings.
 
 ```{r}
 library(lubridate)
-#dateFormat = "%Y-%m-%d"
-#df$date = as.Date(df$date, dateFormat)
 df$date = ymd(df$date)
 ```
 
@@ -79,17 +76,21 @@ df$date = ymd(df$date)
 ### Visualising frequency of total daily steps
 A histogram is plotted to give us an idea of how the frequencies for different 
 number of steps are distributed. 
-```{r message=FALSE}
-df.StepsPerDay <- summarise(group_by(df, date), total.steps=sum(steps, na.rm=TRUE))
+```{r}
+# Filter out rows with missing values, then group by date, and sum over the 
+# step values 
+df.StepsPerDay <- summarise(group_by(df[df$complete,], date), 
+                            total.steps=sum(steps, na.rm=TRUE))
+# Plot it
 hist(df.StepsPerDay$total.steps, breaks=20, col="red", 
      xlab="Total Number of Steps Per Day",
      main="Frequencies of Total Number of Steps Per Day")
 ```
 
-A value of 20 breaks reveals regions which may 
-be skewing the data. If the rows with missing data had not been removed earlier, 
-then we would see a large spike in the frequency for zero steps. This spike 
-occurs even when the ```na.rm=TRUE``` option is used in the ```sum()``` and 
+A value of 20 breaks reveals regions which may be skewing the data. If the 
+rows with missing data had not been filtered out then we would see a large 
+spike in the frequency for zero steps. This spike occurs even when the 
+```na.rm=TRUE``` option is used in the ```sum()``` and 
 ```mean()``` functions. This is because ```sum()``` returns 0 if it is asked to 
 sum over a vector composed exclusively of NAs. So by the time the ```mean()``` 
 function is called, any values which should have been NAs are now zeroes, and 
