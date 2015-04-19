@@ -22,7 +22,6 @@ data esists only as a zip file in the working directory, then extract the data
 into a csv file. And if the data is not present at all, download and extract 
 the data automatically from the source URL. 
 ```{r}
-#===============================================================================
 # Checks if the csv data exists
 dataFilePath = paste(dataDirectory, dataFile, sep="/")
 if(!file.exists(dataFilePath)){
@@ -39,24 +38,16 @@ if(!file.exists(dataFilePath)){
 }
 ```
 
-#===============================================================================
 ##                             What is mean total number of steps taken per day?
-#===============================================================================
 
 
 
-#===============================================================================
 ## What is the average daily activity pattern?
-#===============================================================================
 
 
 
-#===============================================================================
 ## Imputing missing values
-#===============================================================================
 
 
 
-#===============================================================================
 ## Are there differences in activity patterns between weekdays and weekends?
-#===============================================================================
