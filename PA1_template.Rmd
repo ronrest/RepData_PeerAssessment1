@@ -177,10 +177,24 @@ rows with NAs) is:
 sum(!df$complete)
 ```
 
+That is a lot of missing values! One strategy is to simply filter out the rows 
+that contain missing values, as was done in previous sections of this document. 
+Another approach is to replace them with some reasonable values. 
 
-Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+Since the average number of steps for each interval period has already been 
+calculated, then this provides a convenient, and useful set of values to replace 
+the missing values. 
 
-Create a new dataset that is equal to the original dataset but with the missing data filled in.
+A new dataframe will be created that contains the filled in values. 
+```{r}
+df.filled <- df
+# For all rows in which there is missing data, replace the steps value to be the 
+# average steps value for that particular interval 
+for (i in which(!df.filled$complete)){
+    df.filled[i,]$steps = subset(df.AvgStepsByInterval, 
+                                 interval == df.filled[i,]$interval)$mean.steps[1]
+}
+```
 
 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
