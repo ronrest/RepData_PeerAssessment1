@@ -66,8 +66,10 @@ The data also contains a date field, so we need to convert the items in that
 column to be date objects instead of strings. 
 
 ```{r}
-dateFormat = "%Y-%m-%d"
-df$date = as.Date(df$date, dateFormat)
+library(lubridate)
+#dateFormat = "%Y-%m-%d"
+#df$date = as.Date(df$date, dateFormat)
+df$date = ymd(df$date)
 ```
 
 ## What is mean total number of steps taken per day?
@@ -75,8 +77,6 @@ df$date = as.Date(df$date, dateFormat)
 A histogram is plotted to give us an idea of how the frequencies for different 
 number of steps are distributed. 
 ```{r message=FALSE}
-library(dplyr)
-
 df.StepsPerDay <- summarise(group_by(df, date), total.steps=sum(steps, na.rm=TRUE))
 hist(df.StepsPerDay$total.steps, breaks=20, col="red", 
      xlab="Total Number of Steps Per Day",
@@ -118,8 +118,6 @@ together, meaning that both are good measures of centrality for this data.
 The average number of steps taken, averaged across all days can be plotted. 
 
 ``` {r}
-library(lubridate)
-
 # group by the five minute intervals, and average out the number of steps 
 # accross all days.
 group.byInterval <- group_by(df, interval)
