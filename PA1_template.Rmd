@@ -55,7 +55,24 @@ df$date = as.Date(df$date, dateFormat)
 ```
 
 
-##                             What is mean total number of steps taken per day?
+## What is mean total number of steps taken per day?
+A histogram with 20 breaks reveals that this is a bimodal distribution. The data 
+contains a disproportionate number of 
+```{r}
+library(dplyr)
+
+#df_by_day = group_by(df, date)
+df.StepsPerDay = summarise(group_by(df, date), total.steps=sum(steps, na.rm=TRUE))
+with(df.StepsPerDay, mean(total.steps, na.rm=TRUE))   #9354.23
+
+hist(df.StepsPerDay$total.steps, breaks=20, col="red", 
+     xlab="Total Number of Steps Per Day",
+     main="Frequencies of Total Number of Steps Per Day")
+
+head(df, 20)
+df()
+df$date
+```
 
 
 
