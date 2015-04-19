@@ -5,21 +5,58 @@ output:
     keep_md: true
 ---
 
-
 ## Loading and preprocessing the data
 
+First, establish some settings regarding where the data is located:
+```{r}
+url = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+zipFile = "activity.zip"
+dataDirectory = "data"
+dataFile = "activity.csv"
+```
+
+Then, perform data caching. Check if the required data is already stored in the 
+working directory. If the data has already been extracted into the "data" 
+directory as a csv file, then nothing needs to be done at this stage. If the 
+data esists only as a zip file in the working directory, then extract the data 
+into a csv file. And if the data is not present at all, download and extract 
+the data automatically from the source URL. 
+```{r}
+#===============================================================================
+# Checks if the csv data exists
+dataFilePath = paste(dataDirectory, dataFile, sep="/")
+if(!file.exists(dataFilePath)){
+    # Create the data directory if not already present
+    if(!file.exists(dataDirectory)){
+        dir.create(dataDirectory)
+    }
+    # Download the zip file from URL if its not already in working directory
+    if (!file.exists(zipFile)) {
+        download.file(url, destfile = zipFile, mode="wb")
+    }
+    # unzip the contents of the zip file into data directory
+    unzip(zipFile, exdir=dataDirectory)
+}
+```
+
+#===============================================================================
+##                             What is mean total number of steps taken per day?
+#===============================================================================
 
 
-## What is mean total number of steps taken per day?
 
-
-
+#===============================================================================
 ## What is the average daily activity pattern?
+#===============================================================================
 
 
 
+#===============================================================================
 ## Imputing missing values
+#===============================================================================
 
 
 
+#===============================================================================
 ## Are there differences in activity patterns between weekdays and weekends?
+#===============================================================================
