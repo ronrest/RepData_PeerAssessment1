@@ -39,7 +39,20 @@ if(!file.exists(dataFilePath)){
 ```
 
 ### Loading the data
+Since it has now been established that the data exists in the data directory, we 
+can load it into a data frame. 
+```{r}
+df = read.csv(dataFilePath)
+```
 
+The data contains a date field, so we need to convert the items in that column 
+to be date objects instead of strings. 
+
+### Preprocess the data
+```{r}
+dateFormat = "%Y-%m-%d"
+df$date = as.Date(df$date, dateFormat)
+```
 
 
 ##                             What is mean total number of steps taken per day?
