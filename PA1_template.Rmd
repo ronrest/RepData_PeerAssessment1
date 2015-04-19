@@ -6,7 +6,7 @@ output:
 ---
 
 ## Loading and preprocessing the data
-
+### Setup the data files
 First, establish some settings regarding where the data is located:
 ```{r}
 url = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -37,6 +37,10 @@ if(!file.exists(dataFilePath)){
     unzip(zipFile, exdir=dataDirectory)
 }
 ```
+
+### Loading the data
+
+
 
 ##                             What is mean total number of steps taken per day?
 
