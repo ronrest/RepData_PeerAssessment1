@@ -196,7 +196,58 @@ for (i in which(!df.filled$complete)){
 }
 ```
 
-Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+A histogram is plotted to give us an idea of how the frequencies for different 
+number of steps are distributed. 
+```{r}
+# Filter out rows with missing values, then group by date, and sum over the 
+# step values 
+df.filled.StepsPerDay <- summarise(group_by(df.filled, date), 
+                            total.steps=sum(steps, na.rm=TRUE))
+# Plot it
+hist(df.filled.StepsPerDay$total.steps, breaks=20, col="red", 
+     xlab="Total Number of Steps Per Day",
+     main="Frequencies of Total Number of Steps Per Day")
+```
+
+The only visible difference between the previous strategy of eliminating rows 
+with missing data and the current strategy of replacing the missing values with 
+averages for time periods is that the peak has been amplified. 
+
+We can look at the mean and median to see if any changes have occured there. 
+
+```{r}
+filled.mean.dailySteps <- mean(df.StepsPerDay$total.steps, na.rm=TRUE)
+filled.median.dailySteps <- median(df.StepsPerDay$total.steps, na.rm=TRUE)
+filled.mean.dailySteps
+filled.median.dailySteps
+```
+
+The mean **`r round(filled.mean.dailySteps, digits=2)`** and median **`r round(filled.median.dailySteps, digits=2)`** do not differ from the pervious method. 
+
+
+However, if we draw a histogram using the unfiltered and non-filled data, we can see that there is a skew in the data, with a large peak towards zero. 
+
+```{r}
+# Filter out rows with missing values, then group by date, and sum over the 
+# step values 
+df.unfiltered.StepsPerDay <- summarise(group_by(df, date), 
+                            total.steps=sum(steps, na.rm=TRUE))
+# Plot it
+hist(df.unfiltered.StepsPerDay$total.steps, breaks=20, col="red", 
+     xlab="Total Number of Steps Per Day",
+     main="Frequencies of Total Number of Steps Per Day")
+```
+
+ This peak skewed peak does influence the mean and median, shifting them over quite a bit towards zero. 
+
+```{r}
+unfiltered.mean.dailySteps <- mean(df.unfiltered.StepsPerDay$total.steps, na.rm=TRUE)
+unfiltered.median.dailySteps <- median(df.unfiltered.StepsPerDay$total.steps, na.rm=TRUE)
+unfiltered.mean.dailySteps
+unfiltered.median.dailySteps
+```
+
+
 
 
 
