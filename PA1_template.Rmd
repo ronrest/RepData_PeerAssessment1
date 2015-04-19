@@ -109,17 +109,73 @@ median.dailySteps
 ```
 
 We find that the mean number of total daily steps is 
-**`r round(mean.dailySteps, digits=2)`** and the median number of total daily steps 
-is **`r round(median.dailySteps, digits=2)`**. Both values are very close together, 
-meaning that both are good measures of centrality for this data.
+**`r round(mean.dailySteps, digits=2)`** and the median number of total daily 
+steps is **`r round(median.dailySteps, digits=2)`**. Both values are very close 
+together, meaning that both are good measures of centrality for this data.
 
 
 ## What is the average daily activity pattern?
+The average number of steps taken, averaged across all days can be plotted. 
 
+``` {r}
+library(lubridate)
+
+# group by the five minute intervals, and average out the number of steps 
+# accross all days.
+group.byInterval <- group_by(df, interval)
+df.AvgStepsByInterval <- summarise(group.byInterval, 
+                                   mean.steps=mean(steps, na.rm=TRUE))
+
+# add a column that converts the 5 minute intervals into actual times
+df.AvgStepsByInterval = mutate(df.AvgStepsByInterval, 
+                               interval.time = as.POSIXct(formatC(interval, 
+                                                                  width=4, 
+                                                                  flag="0"), 
+                                                          format="%H%M"))
+
+# Finally plot it
+with(df.AvgStepsByInterval, plot(mean.steps~interval.time, type="l", 
+                                 xlab="Time of Day (24h)", 
+                                 ylab="Mean Number of Steps",
+                                 main="Mean Number of Steps at Different Times of Day"))
+```
+
+From the plot we can see that on average, the greatest amount of activity occurs 
+in the morning sometime between 5 am and 10am. We can calculate the exact time 
+interval that receives the most activity.
+
+```{r}
+maxsteps = max(df.AvgStepsByInterval$mean.steps)
+maxsteps.row = filter(df.AvgStepsByInterval, mean.steps==maxsteps)
+maxsteps.interval = maxsteps.row[[1,"interval"]]
+maxsteps.interval
+```
+
+This tells us that the time interval that on averave receives the most activity 
+is **`r maxsteps.interval`**, which corresponds to the time 
+**`r paste(hour(maxsteps.row[[1,"interval.time"]]), minute(maxsteps.row[[1,"interval.time"]]), sep=":")`**
 
 
 ## Imputing missing values
+There are a number of days/intervals where there are missing values (coded as 
+NA). The presence of missing days may introduce bias into some calculations or 
+summaries of the data.
+
+The total number of missing values in the dataset (i.e. the total number of 
+rows with NAs) is: 
+```{r}
+
+```
+
+Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+
+Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+
