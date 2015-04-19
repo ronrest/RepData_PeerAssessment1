@@ -72,6 +72,14 @@ library(lubridate)
 df$date = ymd(df$date)
 ```
 
+The intervals are essentially time stamps, it will be useful to create a column 
+that has actual times. 
+```{r}
+# add a column that converts the 5 minute intervals into actual times
+df = mutate(df, interval.time = as.POSIXct(formatC(interval, width=4, flag="0"), 
+                                           format="%H%M"))
+```
+
 ## What is mean total number of steps taken per day?
 ### Visualising frequency of total daily steps
 A histogram is plotted to give us an idea of how the frequencies for different 
