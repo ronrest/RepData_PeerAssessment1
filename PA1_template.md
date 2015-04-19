@@ -314,6 +314,36 @@ df.filled <- mutate(df.filled,
        c("Sat","Sun")), "weekend", "weekday"), labels=c("weekday", "weekend")))
 ```
 
-Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). The plot should look something like the following, which was created using simulated data
+We can see slight differences in activity for diffferent time intervals between 
+weekdays and weekends. 
+
+
+```r
+# group by the five minute intervals, and average out the number of steps 
+# accross all days.
+group.byInterval_and_weekIndicator <- group_by(df.filled, 
+                                               interval, week.indicator)
+
+df.AvgStepsByInterval_and_weekIndicator <- summarise(group.byInterval_and_weekIndicator, 
+                                   mean.steps=mean(steps, na.rm=TRUE))
+
+# add a column that converts the 5 minute intervals into actual times
+df.AvgStepsByInterval_and_weekIndicator = mutate(df.AvgStepsByInterval_and_weekIndicator, 
+                               interval.time = as.POSIXct(formatC(interval, 
+                                                                  width=4, 
+                                                                  flag="0"), 
+                                                          format="%H%M"))
+
+# Finally plot it
+library(lattice)
+xyplot(mean.steps~(interval) | week.indicator, 
+       data=df.AvgStepsByInterval_and_weekIndicator, 
+       layout=c(1,2), type="l", 
+       main="Mean Number of Steps at Different Times of Day\nGiven it is Weekend/Weekday ", 
+       xlab="Interval", 
+       ylab="Mean Number of Steps",)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-19-1.png) 
 
 
