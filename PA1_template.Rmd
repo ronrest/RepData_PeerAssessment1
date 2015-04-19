@@ -56,10 +56,13 @@ df = read.csv(dataFilePath)
 
 ### Preprocess the data
 The data contains lots of missing values which interfere and skew the data, 
-creating a disproportionate number of false zeroes if not removed. So all rows 
-containing missing data are removed here at this early stage. 
+creating a disproportionate number of false zeroes if not removed. So a new 
+column is created which flags all the rows with that do not contain missing 
+values, so that all other rows can be filtered out when necessary. 
 ```{r}
-df = df[complete.cases(df),]
+library(dplyr)
+df <- mutate(df, complete = complete.cases(df)) 
+#df = df[complete.cases(df),]
 ```
 
 The data also contains a date field, so we need to convert the items in that 
@@ -162,6 +165,7 @@ summaries of the data.
 The total number of missing values in the dataset (i.e. the total number of 
 rows with NAs) is: 
 ```{r}
+complete.cases(df)
 
 ```
 
