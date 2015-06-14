@@ -85,7 +85,7 @@ number of steps are distributed.
 df.StepsPerDay <- summarise(group_by(df[df$complete,], date), 
                             total.steps=sum(steps, na.rm=TRUE))
 # Plot it
-hist(df.StepsPerDay$total.steps, breaks=20, col="red", 
+hist(df.StepsPerDay$total.steps, breaks=20, col="cornflowerblue", 
      xlab="Total Number of Steps Per Day",
      main="Frequencies of Total Number of Steps Per Day")
 ```
@@ -156,6 +156,7 @@ df.AvgStepsByInterval = mutate(df.AvgStepsByInterval,
 
 # Finally plot it
 with(df.AvgStepsByInterval, plot(mean.steps~interval.time, type="l", 
+                                 col="cornflowerblue", 
                                  xlab="Time of Day (24h)", 
                                  ylab="Mean Number of Steps",
                                  main="Mean Number of Steps at Different Times of Day"))
@@ -229,7 +230,7 @@ number of steps are distributed.
 df.filled.StepsPerDay <- summarise(group_by(df.filled, date), 
                             total.steps=sum(steps, na.rm=TRUE))
 # Plot it
-hist(df.filled.StepsPerDay$total.steps, breaks=20, col="red", 
+hist(df.filled.StepsPerDay$total.steps, breaks=20, col="cornflowerblue", 
      xlab="Total Number of Steps Per Day",
      main="Frequencies of Total Number of Steps Per Day")
 ```
@@ -273,7 +274,7 @@ However, if we draw a histogram using the unfiltered and non-filled data, we can
 df.unfiltered.StepsPerDay <- summarise(group_by(df, date), 
                             total.steps=sum(steps, na.rm=TRUE))
 # Plot it
-hist(df.unfiltered.StepsPerDay$total.steps, breaks=20, col="red", 
+hist(df.unfiltered.StepsPerDay$total.steps, breaks=20, col="cornflowerblue", 
      xlab="Total Number of Steps Per Day",
      main="Frequencies of Total Number of Steps Per Day")
 ```
